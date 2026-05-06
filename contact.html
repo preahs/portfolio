@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Say Hello — Preah Smith</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* ── Page-specific overrides ── */
+  .contact-page { max-width: 860px; }
+
+  /* Back link */
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-family: var(--font-ui); font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cork-light); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: #fff; }
+  .back-link svg { width: 10px; height: 10px; }
+
+  /* ── Page header card ── */
+  .page-header-card {
+    padding: 2.5rem 3rem 2rem;
+    transform: rotate(-0.3deg);
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.45s ease both;
+  }
+  .page-header-card .pin { top: -8px; left: 50%; transform: translateX(-50%); }
+
+  /* ── Two-col layout ── */
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* ── Form card ── */
+  .form-card {
+    padding: 2rem 2rem 1.75rem;
+    transform: rotate(-0.5deg);
+    animation: fadeUp 0.45s 0.1s ease both;
+    background: var(--paper-white);
+  }
+  .form-card .tape { top: -11px; left: 50%; transform: translateX(-50%); }
+
+  .form-eyebrow {
+    font-family: var(--font-ui); font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 0.4rem;
+  }
+  .form-title {
+    font-family: var(--font-display); font-size: 1.6rem;
+    color: var(--text-dark); margin-bottom: 1.4rem; line-height: 1.15;
+  }
+
+  .form-group { margin-bottom: 1.1rem; }
+  .form-label {
+    display: block;
+    font-family: var(--font-ui); font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 0.4rem;
+  }
+  .form-input,
+  .form-textarea {
+    width: 100%;
+    font-family: var(--font-body); font-size: 0.88rem; font-weight: 300;
+    color: var(--text-dark);
+    background: var(--paper-cream);
+    border: 1.5px solid rgba(160,120,60,0.25);
+    border-radius: 1px;
+    padding: 0.6rem 0.75rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+  .form-input:focus,
+  .form-textarea:focus {
+    border-color: var(--cork-dark);
+    box-shadow: 0 0 0 3px rgba(168,131,74,0.15);
+  }
+  .form-textarea { resize: vertical; min-height: 130px; line-height: 1.6; }
+
+  /* Subject pills */
+  .subject-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.1rem; }
+  .subject-pill {
+    font-family: var(--font-ui); font-size: 0.6rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); border: 1.5px solid rgba(160,120,60,0.28);
+    padding: 0.3rem 0.65rem; border-radius: 1px; cursor: pointer;
+    background: transparent; transition: all 0.18s;
+  }
+  .subject-pill:hover { background: rgba(160,120,60,0.08); border-color: var(--cork-dark); color: var(--text-dark); }
+  .subject-pill.active { background: var(--text-dark); color: var(--paper-cream); border-color: var(--text-dark); }
+  .subject-pills-label {
+    font-family: var(--font-ui); font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 0.45rem; display: block;
+  }
+
+  .form-submit {
+    font-family: var(--font-ui); font-weight: 600; font-size: 0.72rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    background: var(--text-dark); color: var(--paper-cream);
+    border: none; padding: 0.65rem 1.4rem; border-radius: 2px;
+    cursor: pointer; transition: background 0.2s;
+    display: inline-block;
+  }
+  .form-submit:hover { background: var(--cork-dark); }
+  .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Success state */
+  .success-msg {
+    display: none; margin-top: 1rem;
+    background: var(--sticky-green); padding: 0.75rem 1rem;
+    font-size: 0.82rem; color: #1a3d1c; font-weight: 300; line-height: 1.5;
+    border-left: 3px solid #4a8c4d;
+  }
+  .success-msg.show { display: block; }
+
+  /* ── Right column: sticky notes + direct links ── */
+  .right-col { display: flex; flex-direction: column; gap: 1.75rem; }
+
+  /* Direct links sticky */
+  .links-sticky {
+    background: var(--sticky-yellow);
+    padding: 1.4rem 1.25rem;
+    transform: rotate(2deg);
+    box-shadow: var(--shadow-paper);
+    animation: fadeUp 0.45s 0.15s ease both;
+    position: relative;
+  }
+  .links-sticky .pin { top: -8px; left: 50%; transform: translateX(-50%); }
+  .links-sticky .sticky-label { color: #7a6000; margin-bottom: 0.9rem; }
+
+  .direct-link-item {
+    display: flex; flex-direction: column; gap: 0.1rem;
+    margin-bottom: 0.85rem; padding-bottom: 0.7rem;
+    border-bottom: 1px dashed rgba(120,90,0,0.2);
+  }
+  .direct-link-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .direct-link-platform {
+    font-family: var(--font-ui); font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: #9a7800;
+  }
+  .direct-link-item a {
+    font-size: 0.8rem; font-weight: 300; color: #4a3800;
+    text-decoration: none; border-bottom: 1px solid rgba(120,90,0,0.25);
+    word-break: break-all; transition: color 0.2s;
+  }
+  .direct-link-item a:hover { color: #1a1208; }
+
+  /* Note sticky */
+  .note-sticky {
+    background: var(--sticky-pink);
+    padding: 1.25rem 1.1rem 1.5rem;
+    transform: rotate(-1.8deg);
+    box-shadow: var(--shadow-paper);
+    animation: fadeUp 0.45s 0.22s ease both;
+    position: relative;
+  }
+  .note-sticky .pin { top: -7px; left: 50%; transform: translateX(-50%); }
+  .note-sticky .sticky-label { color: #7a1a2a; margin-bottom: 0.65rem; }
+  .note-sticky p {
+    font-size: 0.82rem; font-weight: 300; color: #5a1a2a;
+    line-height: 1.65; font-style: italic;
+  }
+
+  /* Availability strip */
+  .avail-strip {
+    background: var(--sticky-green);
+    padding: 1.1rem 1.25rem;
+    transform: rotate(0.8deg);
+    box-shadow: var(--shadow-paper);
+    animation: fadeUp 0.45s 0.28s ease both;
+    position: relative;
+  }
+  .avail-strip .pin { top: -7px; left: 50%; transform: translateX(-50%); }
+  .avail-strip .sticky-label { color: #2e5e30; margin-bottom: 0.55rem; }
+  .avail-item {
+    font-size: 0.78rem; color: #1a3d1c; line-height: 1.55;
+    padding-left: 0.75rem; position: relative; margin-bottom: 0.3rem;
+  }
+  .avail-item::before { content: '→'; position: absolute; left: 0; color: #4a8c4d; font-size: 0.7rem; }
+
+  /* Responsive */
+  @media (max-width: 680px) {
+    .contact-layout { grid-template-columns: 1fr; }
+    .page-header-card { padding: 2rem 1.5rem 1.5rem; }
+    .form-card { padding: 1.75rem 1.25rem 1.5rem; }
+    .links-sticky, .note-sticky, .avail-strip { transform: rotate(0); }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">PS</a>
+  <ul class="nav-links">
+    <li><a href="/projects.html">Projects</a></li>
+    <li><a href="https://blog.preahs.com">Blog</a></li>
+    <li><a href="/assets/docs/preah_smith_resume.pdf">Résumé</a></li>
+    <li><a href="/contact" class="nav-cta">Say Hello ☺︎</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer" id="drawer">
+  <a href="/projects.html" onclick="closeDrawer()">Projects</a>
+  <a href="https://blog.preahs.com" onclick="closeDrawer()">Blog</a>
+  <a href="/assets/docs/preah_smith_resume.pdf" onclick="closeDrawer()">Résumé</a>
+  <a href="/contact" onclick="closeDrawer()">Say Hello ☺︎</a>
+</div>
+
+<main class="board contact-page">
+
+  <!-- Back link -->
+  <div style="margin-bottom: 1.5rem;">
+    <a href="/" class="back-link">
+      <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 1.5L3 5l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to portfolio
+    </a>
+  </div>
+
+  <!-- Page header -->
+  <div class="card hero-card page-header-card">
+    <div class="pin"></div>
+    <p class="hero-eyebrow">Let's connect</p>
+    <h1 class="hero-name">Say <em>Hello</em></h1>
+    <p class="hero-tagline">
+      Whether you want to talk security, the home lab, an open role, or just geek out, I'm happy to hear from you! Drop me a note below or reach out directly.
+    </p>
+  </div>
+
+  <!-- Layout -->
+  <div class="contact-layout">
+
+    <!-- Contact form -->
+    <div class="card form-card">
+      <div class="tape tape-h"></div>
+      <p class="form-eyebrow">Drop a note</p>
+      <h2 class="form-title">Send a Message</h2>
+
+      <span class="subject-pills-label">What's this about?</span>
+      <div class="subject-pills" id="pills">
+        <button class="subject-pill" data-val="Job opportunity">Job Opportunity</button>
+        <button class="subject-pill" data-val="Home lab / tech">Home Lab / Tech</button>
+        <button class="subject-pill" data-val="Collaboration">Collaboration</button>
+        <button class="subject-pill" data-val="General hello">General Hello</button>
+      </div>
+
+      <form id="contactForm" novalidate>
+        <input type="hidden" id="subjectField" name="subject" value="" />
+
+        <div class="form-group">
+          <label class="form-label" for="nameInput">Name</label>
+          <input class="form-input" type="text" id="nameInput" name="name" placeholder="Your name" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="emailInput">Email</label>
+          <input class="form-input" type="email" id="emailInput" name="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="messageInput">Message</label>
+          <textarea class="form-textarea" id="messageInput" name="message" placeholder="What's on your mind?" required></textarea>
+        </div>
+
+        <button class="form-submit" type="submit" id="submitBtn">Send it →</button>
+
+        <div class="success-msg" id="successMsg">
+          ✓ &nbsp; Message sent! I'll get back to you as soon as I can. Thanks for reaching out.
+        </div>
+      </form>
+    </div>
+
+    <!-- Right column -->
+    <div class="right-col">
+
+      <!-- Direct links sticky -->
+      <div class="card links-sticky">
+        <div class="pin"></div>
+        <p class="sticky-label">Direct Links</p>
+
+        <div class="direct-link-item">
+          <span class="direct-link-platform">Email</span>
+          <a href="mailto:contact@preahs.com">contact@preahs.com</a>
+        </div>
+        <div class="direct-link-item">
+          <span class="direct-link-platform">LinkedIn</span>
+          <a href="https://www.linkedin.com/in/preah-smith-510667253/" target="_blank" rel="noopener">linkedin.com/in/preah-smith</a>
+        </div>
+        <div class="direct-link-item">
+          <span class="direct-link-platform">Git / Forgejo</span>
+          <a href="https://git.preahs.com/preah" target="_blank" rel="noopener">git.preahs.com/preah</a>
+        </div>
+        <div class="direct-link-item">
+          <span class="direct-link-platform">Blog</span>
+          <a href="https://blog.preahs.com" target="_blank" rel="noopener">blog.preahs.com</a>
+        </div>
+        <div class="direct-link-item">
+          <span class="direct-link-platform">Signal</span>
+          <a href="https://signal.me/#eu/7FQaEphPdhSrlUCPuqr8awsHVYUSiJ9CGua_YktOEMge3oIT-itMcKuS2r3k6x8Q" target="_blank" rel="noopener">preah.90</a>
+        </div>
+        <div class="direct-link-item">
+          <span class="direct-link-platform">Matrix</span>
+          <a href="https://matrix.to/#/@preshavocado:snowberry.social" target="_blank" rel="noopener">@preshavocado:snowberry.social</a>
+        </div>
+      </div>
+
+      <!-- Availability note -->
+      <div class="avail-strip card">
+        <div class="pin pin-green"></div>
+        <p class="sticky-label">Open To</p>
+        <p class="avail-item">Security &amp; help desk roles</p>
+        <p class="avail-item">Internships &amp; entry-level positions</p>
+        <p class="avail-item">Freelance / part-time IT work</p>
+        <p class="avail-item">Networking with people in the field</p>
+        <p class="avail-item">Questions or concerns about my work</p>
+      </div>
+
+      <!-- Handwritten-feel sticky note -->
+      <div class="note-sticky card">
+        <div class="pin pin-blue"></div>
+        <p class="sticky-label">Note</p>
+        <p>I'm based in Lakehills, TX but open to remote work. I try to reply within a day or two. No ghosting, promise!</p>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="footer-strip">&copy; 2026 Preah Smith</p>
+
+</main>
+
+<script>
+  /* ── Nav drawer ── */
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('drawer');
+  const nav = document.getElementById('nav');
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    nav.classList.remove('nav-mobile-open');
+  }
+
+  hamburger.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    nav.classList.toggle('nav-mobile-open', open);
+  });
+
+  /* ── Subject pills ── */
+  const pills = document.querySelectorAll('.subject-pill');
+  const subjectField = document.getElementById('subjectField');
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      subjectField.value = pill.dataset.val;
+    });
+  });
+
+  /* ── Form submission ── */
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successMsg = document.getElementById('successMsg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('nameInput').value.trim();
+    const email = document.getElementById('emailInput').value.trim();
+    const message = document.getElementById('messageInput').value.trim();
+
+    if (!name || !email || !message) {
+      // Simple inline validation highlight
+      [['nameInput', name], ['emailInput', email], ['messageInput', message]].forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        el.style.borderColor = val ? 'rgba(160,120,60,0.25)' : '#c0392b';
+      });
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    /*
+      Hook up your preferred form backend here.
+      Options: Formspree, Netlify Forms, a serverless function, etc.
+
+      Example with Formspree:
+        const res = await fetch('https://formspree.io/f/YOUR_ID', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ name, email, subject: subjectField.value, message })
+        });
+        if (res.ok) { ... }
+
+      For now, we simulate success after a short delay.
+    */
+    await new Promise(r => setTimeout(r, 900));
+
+    form.reset();
+    pills.forEach(p => p.classList.remove('active'));
+    subjectField.value = '';
+    submitBtn.textContent = 'Sent ✓';
+    successMsg.classList.add('show');
+  });
+</script>
+</body>
+</html>

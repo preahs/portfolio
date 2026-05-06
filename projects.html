@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects — Preah Smith</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* ── Page-specific overrides ── */
+  .projects-page { max-width: 1100px; }
+
+  /* Back link */
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-family: var(--font-ui); font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--cork-light); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: #fff; }
+  .back-link svg { width: 10px; height: 10px; }
+
+  /* ── Page header card ── */
+  .page-header-card {
+    padding: 2.5rem 3rem 2rem;
+    transform: rotate(-0.3deg);
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.45s ease both;
+  }
+  .page-header-card .pin { top: -8px; left: 50%; transform: translateX(-50%); }
+
+  /* ── Projects full grid ── */
+  .projects-full-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Featured project spans full width */
+  .project-card-featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0 !important;
+    transform: rotate(-0.3deg) !important;
+    overflow: hidden;
+  }
+  .project-card-featured:hover { transform: translateY(-2px) rotate(0deg) !important; }
+
+  .featured-body {
+    padding: 2.25rem 2.25rem 2rem;
+  }
+  .featured-visual {
+    background: var(--text-dark);
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .featured-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 18px,
+      rgba(200,169,110,0.06) 18px,
+      rgba(200,169,110,0.06) 19px
+    );
+  }
+  .featured-visual-title {
+    font-family: var(--font-ui); font-size: 0.6rem; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cork-light); margin-bottom: 1rem; opacity: 0.7;
+  }
+
+  /* Service pill rows */
+  .service-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .service-row {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--font-ui); font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--cork-light); opacity: 0.85;
+  }
+  .service-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-green { background: #22c55e; }
+  .dot-blue  { background: #3b82f6; }
+  .dot-yellow { background: #fbbf24; }
+  .dot-purple { background: #a78bfa; }
+  .dot-orange { background: #f97316; }
+  .dot-teal   { background: #2dd4bf; }
+
+  /* Container count badge */
+  .container-badge {
+    position: absolute; bottom: 1.5rem; right: 1.5rem;
+    font-family: var(--font-display); font-size: 3.5rem; line-height: 1;
+    color: rgba(200,169,110,0.12); font-style: italic;
+    pointer-events: none; user-select: none;
+  }
+
+  /* Status ribbon */
+  .status-ribbon {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-family: var(--font-ui); font-size: 0.58rem; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--paper-cream); background: var(--cork-dark);
+    padding: 0.25rem 0.6rem; margin-bottom: 0.75rem;
+  }
+  .status-ribbon.ongoing { background: #15803d; }
+  .status-ribbon.wip     { background: #b45309; }
+  .status-ribbon.academic { background: #1d4ed8; }
+
+  /* Expanded project card */
+  .project-card-full {
+    padding: 1.75rem 1.6rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .project-card-full:nth-child(2) { transform: rotate(0.6deg); }
+  .project-card-full:nth-child(3) { transform: rotate(-0.5deg); background: var(--paper-cream); }
+  .project-card-full:nth-child(4) { transform: rotate(0.3deg); }
+  .project-card-full:nth-child(5) { transform: rotate(-0.7deg); background: var(--paper-lined);
+    background-image: repeating-linear-gradient(transparent, transparent 27px, rgba(150,180,220,0.25) 27px, rgba(150,180,220,0.25) 28px);
+    background-size: 100% 28px; background-position: 0 32px;
+  }
+  .project-card-full:nth-child(6) { transform: rotate(0.4deg); }
+
+  .project-card-full .tape-h { top: -11px; left: 50%; transform: translateX(-50%); }
+
+  .project-card-full .project-desc { flex: 1; }
+
+  /* Detail list (more verbose than index) */
+  .detail-list {
+    margin: 0.75rem 0 1rem; padding: 0; list-style: none;
+    border-top: 1px dashed rgba(160,120,60,0.25);
+    border-bottom: 1px dashed rgba(160,120,60,0.25);
+    padding: 0.6rem 0;
+  }
+  .detail-list li {
+    font-size: 0.78rem; font-weight: 300; color: var(--text-mid);
+    line-height: 1.55; padding-left: 0.9rem; position: relative; margin-bottom: 0.3rem;
+  }
+  .detail-list li::before { content: '–'; position: absolute; left: 0; color: var(--cork-dark); }
+
+  /* Coming-soon card */
+  .coming-soon-card {
+    background: var(--paper-cream);
+    border: 2px dashed rgba(160,120,60,0.3);
+    padding: 2rem 1.5rem;
+    transform: rotate(0.5deg);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center; gap: 0.75rem;
+    min-height: 200px;
+    box-shadow: none !important;
+  }
+  .coming-soon-card:hover { box-shadow: var(--shadow-hover) !important; }
+  .coming-soon-icon {
+    font-size: 1.75rem; opacity: 0.35;
+  }
+  .coming-soon-label {
+    font-family: var(--font-ui); font-size: 0.62rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted);
+  }
+  .coming-soon-text {
+    font-size: 0.8rem; font-weight: 300; color: var(--text-muted); line-height: 1.5;
+  }
+
+  /* ── Side note sticky ── */
+  .projects-aside {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 3rem;
+  }
+
+  .lab-note {
+    background: var(--sticky-yellow);
+    padding: 1.4rem 1.25rem;
+    transform: rotate(2.2deg);
+    box-shadow: var(--shadow-paper);
+    animation: fadeUp 0.45s 0.2s ease both;
+    position: relative;
+  }
+  .lab-note .pin { top: -8px; left: 50%; transform: translateX(-50%); }
+  .lab-note .sticky-label { color: #7a6000; margin-bottom: 0.65rem; }
+  .lab-note p { font-size: 0.8rem; font-weight: 300; color: #4a3800; line-height: 1.65; font-style: italic; margin-bottom: 0.5rem; }
+  .lab-note p:last-child { margin-bottom: 0; }
+
+  /* animation stagger for cards */
+  .projects-full-grid .project-card-featured { animation: fadeUp 0.45s 0.1s ease both; }
+  .projects-full-grid .project-card-full:nth-child(2) { animation: fadeUp 0.45s 0.18s ease both; }
+  .projects-full-grid .project-card-full:nth-child(3) { animation: fadeUp 0.45s 0.24s ease both; }
+  .projects-full-grid .project-card-full:nth-child(4) { animation: fadeUp 0.45s 0.30s ease both; }
+  .projects-full-grid .project-card-full:nth-child(5) { animation: fadeUp 0.45s 0.36s ease both; }
+  .projects-full-grid .project-card-full:nth-child(6) { animation: fadeUp 0.45s 0.42s ease both; }
+  .projects-full-grid .project-card-full:nth-child(7) { animation: fadeUp 0.45s 0.48s ease both; }
+
+  /* Responsive */
+  @media (max-width: 740px) {
+    .project-card-featured {
+      grid-template-columns: 1fr;
+    }
+    .featured-visual { min-height: 180px; }
+    .container-badge { font-size: 5rem; }
+    .projects-full-grid { grid-template-columns: 1fr; }
+    .projects-aside { grid-template-columns: 1fr; }
+    .lab-note { transform: rotate(0); }
+    .page-header-card { padding: 2rem 1.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/">PS</a>
+  <ul class="nav-links">
+    <li><a href="/projects.html" style="color:#fff;">Projects</a></li>
+    <li><a href="https://blog.preahs.com">Blog</a></li>
+    <li><a href="/assets/docs/preah_smith_resume.pdf">Résumé</a></li>
+    <li><a href="/contact.html" class="nav-cta">Say Hello ☺︎</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer" id="drawer">
+  <a href="/projects.html" onclick="closeDrawer()">Projects</a>
+  <a href="https://blog.preahs.com" onclick="closeDrawer()">Blog</a>
+  <a href="/assets/docs/preah_smith_resume.pdf" onclick="closeDrawer()">Résumé</a>
+  <a href="/contact.html" onclick="closeDrawer()">Say Hello ☺︎</a>
+</div>
+
+<main class="board projects-page">
+
+  <!-- Back link -->
+  <div style="margin-bottom: 1.5rem;">
+    <a href="/" class="back-link">
+      <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 1.5L3 5l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to portfolio
+    </a>
+  </div>
+
+  <!-- Page header -->
+  <div class="card hero-card page-header-card">
+    <div class="pin"></div>
+    <p class="hero-eyebrow">Things I've Built &amp; Broken</p>
+    <h1 class="hero-name">My <em>Projects</em></h1>
+    <p class="hero-tagline">
+      Home lab experiments, coursework, and side projects. Most of this is ongoing — I build things, document what breaks, and iterate. Everything listed here is something I can actually speak to.
+    </p>
+  </div>
+
+  <!-- Section label -->
+  <div class="section-label" style="margin-bottom: 1.75rem;">
+    All Projects
+  </div>
+
+  <!-- Projects grid -->
+  <div class="projects-full-grid">
+
+    <!-- ── FEATURED: Homelab ── -->
+    <div class="card project-card project-card-featured" style="position:relative; overflow:hidden;">
+      <div class="featured-body">
+        <div class="tape tape-h" style="top:-11px; left:50%; transform:translateX(-50%);"></div>
+        <span class="status-ribbon ongoing">● Ongoing</span>
+        <p class="project-tag">Home Lab &mdash; Since 2024</p>
+        <h2 class="project-title">Proxmox Homelab<br>
+          <em style="font-size:0.9rem; color:var(--cork-dark);">Dell PowerEdge R730</em>
+        </h2>
+        <p class="project-desc">A bare-metal Proxmox VE 8 hypervisor running 25+ LXC containers. Self-hosted infrastructure covering media, productivity, finance, network security, and monitoring — all behind Cloudflare tunnels and a reverse proxy layer.</p>
+
+        <ul class="detail-list">
+          <li>Proxmox VE 8 on Dell PowerEdge R730 bare-metal</li>
+          <li>25+ LXC containers — Jellyfin, Nextcloud, Vaultwarden, Grafana, AdGuard Home, Forgejo, and more</li>
+          <li>Cloudflare Tunnels + Nginx Proxy Manager for external access with zero open inbound ports</li>
+          <li>VLAN segmentation via pfSense for network isolation between trusted/untrusted traffic</li>
+          <li>Automated backups with Proxmox Backup Server to a dedicated storage node</li>
+          <li>Grafana + Prometheus + node_exporter dashboards for real-time host and container metrics</li>
+          <li>Full documentation written throughout — setup guides, troubleshooting logs, architecture diagrams</li>
+        </ul>
+
+        <div class="project-tags-row">
+          <span class="tech-pill">Proxmox VE</span>
+          <span class="tech-pill">Linux</span>
+          <span class="tech-pill">Bash</span>
+          <span class="tech-pill">Docker</span>
+          <span class="tech-pill">Cloudflare</span>
+          <span class="tech-pill">Nginx</span>
+          <span class="tech-pill">pfSense</span>
+          <span class="tech-pill">Grafana</span>
+          <span class="tech-pill">Prometheus</span>
+        </div>
+        <a href="https://github.com/preahs" class="project-link" target="_blank">View on GitHub →</a>
+      </div>
+
+      <div class="featured-visual">
+        <p class="featured-visual-title">Running Services</p>
+        <div class="service-list">
+          <div class="service-row"><span class="service-dot dot-green"></span> Jellyfin — Media server</div>
+          <div class="service-row"><span class="service-dot dot-blue"></span> Nextcloud — File sync</div>
+          <div class="service-row"><span class="service-dot dot-green"></span> Vaultwarden — Passwords</div>
+          <div class="service-row"><span class="service-dot dot-yellow"></span> Grafana — Monitoring</div>
+          <div class="service-row"><span class="service-dot dot-teal"></span> AdGuard Home — DNS</div>
+          <div class="service-row"><span class="service-dot dot-blue"></span> Nginx Proxy Manager</div>
+          <div class="service-row"><span class="service-dot dot-purple"></span> Forgejo — Git</div>
+          <div class="service-row"><span class="service-dot dot-orange"></span> Proxmox Backup Server</div>
+          <div class="service-row"><span class="service-dot dot-green"></span> Home Assistant</div>
+          <div class="service-row"><span class="service-dot dot-teal"></span> Immich — Photo backup</div>
+        </div>
+        <div class="container-badge">25+</div>
+      </div>
+    </div>
+
+    <!-- ── Portfolio & Blog ── -->
+    <div class="card project-card project-card-full" style="position:relative; overflow:visible;">
+      <div class="tape tape-h"></div>
+      <span class="status-ribbon wip">◐ In Progress</span>
+      <p class="project-tag">This Site &mdash; 2026</p>
+      <h2 class="project-title">Portfolio &amp; Blog</h2>
+      <p class="project-desc">Built from scratch with zero dependencies. A corkboard-themed personal site with a separate Ghost-powered blog for write-ups and tutorials.</p>
+      <ul class="detail-list">
+        <li>Pure HTML, CSS &amp; vanilla JS — no frameworks, no build step</li>
+        <li>Responsive corkboard layout with paper cards, tape, pins, and sticky notes</li>
+        <li>Ghost CMS self-hosted on the homelab for the blog</li>
+        <li>Deployed on Cloudflare Pages via Cloudflare Tunnel</li>
+      </ul>
+      <div class="project-tags-row">
+        <span class="tech-pill">HTML/CSS</span>
+        <span class="tech-pill">JavaScript</span>
+        <span class="tech-pill">Ghost CMS</span>
+        <span class="tech-pill">Cloudflare</span>
+      </div>
+      <a href="https://blog.preahs.com" class="project-link">Visit the Blog →</a>
+      <div class="deco-sticky card" style="right:-14px; bottom:-24px; z-index:1; position:absolute;">
+        <div class="pin pin-blue"></div>
+        <p>screenshots &amp; write-up coming soon!</p>
+      </div>
+    </div>
+
+    <!-- ── UTSA Coursework ── -->
+    <div class="card project-card project-card-full">
+      <div class="tape tape-h"></div>
+      <span class="status-ribbon academic">◈ Academic</span>
+      <p class="project-tag">B.B.A. Cybersecurity &mdash; UTSA</p>
+      <h2 class="project-title">Coursework &amp; Labs</h2>
+      <p class="project-desc">Hands-on work from my undergraduate cybersecurity program — network analysis, risk assessments, Linux admin, and SQL querying exercises.</p>
+      <ul class="detail-list">
+        <li>Network Security: packet capture &amp; analysis with Wireshark</li>
+        <li>Linux administration — file permissions, process management, shell scripting</li>
+        <li>SQL querying for log analysis and database security exercises</li>
+        <li>Information assurance risk assessments and security frameworks (NIST, ISO)</li>
+        <li>Python scripting for basic automation tasks</li>
+      </ul>
+      <div class="project-tags-row">
+        <span class="tech-pill">Wireshark</span>
+        <span class="tech-pill">Linux</span>
+        <span class="tech-pill">SQL</span>
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">NIST</span>
+      </div>
+      <a href="https://git.preahs.com/preah" class="project-link" target="_blank">See Forgejo →</a>
+    </div>
+
+    <!-- ── CompTIA A+ Prep ── -->
+    <div class="card project-card project-card-full">
+      <div class="tape tape-h"></div>
+      <span class="status-ribbon ongoing" style="background:#166534;">✓ Complete</span>
+      <p class="project-tag">Certification Study &mdash; 2025–2026</p>
+      <h2 class="project-title">CompTIA A+ Study &amp; Exam</h2>
+      <p class="project-desc">Self-directed study for the CompTIA A+ Core 1 (220-1101) and Core 2 (220-1102). Earned January 2026 — covered hardware, networking fundamentals, OS troubleshooting, and security basics.</p>
+      <ul class="detail-list">
+        <li>220-1101: hardware, mobile devices, networking, virtualization, cloud</li>
+        <li>220-1102: Windows OS, macOS, Linux, security, operational procedures</li>
+        <li>Professor Messer video series + practice exams + homelab reinforcement</li>
+      </ul>
+      <div class="project-tags-row">
+        <span class="tech-pill">CompTIA</span>
+        <span class="tech-pill">Hardware</span>
+        <span class="tech-pill">Networking</span>
+        <span class="tech-pill">Windows</span>
+        <span class="tech-pill">Linux</span>
+      </div>
+    </div>
+
+    <!-- ── Security+ In Progress ── -->
+    <div class="card project-card project-card-full">
+      <div class="tape tape-h"></div>
+      <span class="status-ribbon wip">◐ In Progress</span>
+      <p class="project-tag">Certification Study &mdash; 2026</p>
+      <h2 class="project-title">CompTIA Security+<br>
+        <em style="font-size:0.88rem; color:var(--cork-dark);">SY0-701</em>
+      </h2>
+      <p class="project-desc">Currently working toward Security+ SY0-701. Targeting June 2026. Studying threats, vulnerabilities, architecture, implementation, and governance topics.</p>
+      <ul class="detail-list">
+        <li>Threats, attacks, and vulnerabilities — malware analysis, social engineering</li>
+        <li>Security architecture — network segmentation, cloud security, zero trust</li>
+        <li>Implementation — PKI, identity &amp; access management, endpoint hardening</li>
+        <li>Governance, risk &amp; compliance — frameworks, incident response, regulations</li>
+      </ul>
+      <div class="project-tags-row">
+        <span class="tech-pill">CompTIA</span>
+        <span class="tech-pill">Security</span>
+        <span class="tech-pill">GRC</span>
+        <span class="tech-pill">Networking</span>
+      </div>
+    </div>
+
+    <!-- ── Coming Soon placeholder ── -->
+    <div class="coming-soon-card card">
+      <div class="coming-soon-icon">📌</div>
+      <p class="coming-soon-label">More coming soon</p>
+      <p class="coming-soon-text">CTF write-ups, network monitoring deep-dives, and more homelab builds are in the pipeline. Check the blog for updates.</p>
+      <a href="https://blog.preahs.com" class="project-link">Follow on the Blog →</a>
+    </div>
+
+  </div>
+
+  <!-- Bottom note row -->
+  <div class="projects-aside">
+    <div class="card certs-strip" style="margin-bottom:0;">
+      <div class="tape tape-h"></div>
+      <div class="tape tape-h tape-h-right"></div>
+      <p class="strip-label">Certifications &amp; Training</p>
+      <div class="certs-grid">
+        <div class="cert-badge">
+          <span class="cert-name">CompTIA A+ (Core 1 &amp; 2)</span>
+          <span class="cert-date">Earned January 2026</span>
+        </div>
+        <div class="cert-badge in-progress">
+          <span class="cert-name">CompTIA Security+ SY0-701 ✦ In Progress</span>
+          <span class="cert-date">Expected June 2026</span>
+        </div>
+        <div class="cert-badge">
+          <span class="cert-name">Tools of the Trade: Linux and SQL</span>
+          <span class="cert-date">Google / Coursera — February 2024</span>
+        </div>
+        <div class="cert-badge">
+          <span class="cert-name">Networks &amp; Network Security</span>
+          <span class="cert-date">Google / Coursera — April 2024</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lab-note card">
+      <div class="pin pin-blue"></div>
+      <p class="sticky-label">A note on docs</p>
+      <p>I try to document everything I build — setup steps, what broke, how I fixed it. Most of it lives on the Forgejo instance or will end up as blog posts.</p>
+      <p style="margin-top:0.5rem;">Still catching up on write-ups for the homelab. Bear with me!</p>
+    </div>
+  </div>
+
+  <p class="footer-strip">&copy; 2026 Preah Smith</p>
+
+</main>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('drawer');
+  const nav = document.getElementById('nav');
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    nav.classList.remove('nav-mobile-open');
+  }
+
+  hamburger.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    nav.classList.toggle('nav-mobile-open', open);
+  });
+</script>
+</body>
+</html>

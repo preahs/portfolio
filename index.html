@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Preah Smith — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#">PS</a>
+  <ul class="nav-links">
+    <li><a href="/projects.html">Projects</a></li>
+    <li><a href="https://blog.preahs.com">Blog</a></li>
+    <li><a href="/assets/docs/preah_smith_resume.pdf">Résumé</a></li>
+    <li><a href="/contact.html" class="nav-cta">Say Hello ☺︎</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-drawer" id="drawer">
+  <a href="/projects.html" onclick="closeDrawer()">Projects</a>
+  <a href="https://blog.preahs.com" onclick="closeDrawer()">Blog</a>
+  <a href="/assets/docs/preah_smith_resume.pdf" onclick="closeDrawer()">Résumé</a>
+  <a href="/contact.html" onclick="closeDrawer()">Say Hello ☺︎</a>
+</div>
+
+<main class="board">
+
+  <!-- HERO -->
+  <div class="hero-wrap">
+    <div class="card hero-card">
+      <div class="pin"></div>
+      <p class="hero-eyebrow">Cybersecurity Student &amp; Tinkerer</p>
+      <h1 class="hero-name">Preah <em>Smith</em></h1>
+      <p class="hero-tagline">
+        Information security obsessed sysadmin. Finishing my B.B.A. in Cyber Security at UTSA, perfecting a robust home lab, and learning to break things so I can better defend them.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">See My Work</a>
+        <a href="/resume.pdf" class="btn btn-secondary">View Résumé</a>
+      </div>
+    </div>
+
+    <div class="status-sticky card">
+      <div class="pin"></div>
+      <p class="sticky-label">Right Now</p>
+      <p class="status-item">Studying for Security+</p>
+      <p class="status-item">B.B.A. Cybersecurity @ UTSA</p>
+      <p class="status-item">Expanding the home lab</p>
+      <p class="status-item">Open to security &amp; help desk roles</p>
+      <p class="status-item">Writing on the blog</p>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div id="projects">
+    <div class="section-label">
+      Projects
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="card project-card" style="position:relative; overflow:visible;">
+        <div class="tape tape-h"></div>
+        <p class="project-tag">Home Lab &mdash; Ongoing</p>
+        <h2 class="project-title">Proxmox Homelab<br><em style="font-size:0.9rem; color:var(--cork-dark);">Dell PowerEdge R730</em></h2>
+        <p class="project-desc">A bare-metal Proxmox VE hypervisor running 25+ LXC containers. Self-hosted services spanning media, productivity, security, and networking.</p>
+        <ul class="project-bullets">
+          <li>Deployed and maintain 25+ LXC containers on Proxmox VE 8</li>
+          <li>Self-hosted media, productivity, finance, and infrastructure services</li>
+          <li>Configured Cloudflare tunnels, reverse proxying, and network security</li>
+          <li>Documented setup and troubleshooting processes throughout for future reference</li>
+        </ul>
+        <div class="project-tags-row">
+          <span class="tech-pill">Linux</span>
+          <span class="tech-pill">Bash</span>
+          <span class="tech-pill">Networking</span>
+          <span class="tech-pill">Docker</span>
+        </div>
+        <a href="https://github.com/preahs" class="project-link" target="_blank">View Details →</a>
+        <div class="deco-sticky card">
+          <div class="pin pin-blue"></div>
+          <p>add screenshots &amp; write-up soon!</p>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <div class="tape tape-h"></div>
+        <p class="project-tag">This Site &mdash; 2026</p>
+        <h2 class="project-title">Portfolio &amp; Blog</h2>
+        <p class="project-desc">Built from scratch. A corkboard-themed portfolio with a blog for tech write-ups, home lab notes, and lessons from the field.</p>
+        <ul class="project-bullets">
+          <li>HTML, CSS &amp; vanilla JS</li>
+          <li>Fully responsive across mobile and desktop</li>
+          <li>Blog coming soon for various write-ups &amp; tutorials</li>
+        </ul>
+        <div class="project-tags-row">
+          <span class="tech-pill">HTML/CSS</span>
+          <span class="tech-pill">JavaScript</span>
+        </div>
+        <a href="https://blog.preahs.com" class="project-link">Visit the Blog (WIP)→</a>
+      </div>
+
+      <div class="card project-card">
+        <div class="tape tape-h"></div>
+        <p class="project-tag">Academic &mdash; UTSA</p>
+        <h2 class="project-title">Coursework &amp; Labs</h2>
+        <p class="project-desc">Hands-on lab work from my B.B.A. in Cybersecurity — network analysis, information assurance, and Linux &amp; SQL exercises.</p>
+        <ul class="project-bullets">
+          <li>Network Security &amp; packet analysis</li>
+          <li>Linux administration &amp; SQL querying</li>
+          <li>Information assurance risk assessments</li>
+        </ul>
+        <div class="project-tags-row">
+          <span class="tech-pill">Wireshark</span>
+          <span class="tech-pill">Linux</span>
+          <span class="tech-pill">SQL</span>
+          <span class="tech-pill">Python</span>
+        </div>
+        <a href="https://git.preahs.com/preah" class="project-link" target="_blank">See Forgejo →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CERTS -->
+  <div class="card certs-strip">
+    <div class="tape tape-h"></div>
+    <div class="tape tape-h tape-h-right"></div>
+    <p class="strip-label">Certifications &amp; Training</p>
+    <div class="certs-grid">
+      <div class="cert-badge">
+        <span class="cert-name">CompTIA A+ (Core 1 &amp; 2)</span>
+        <span class="cert-date">Earned January 2026</span>
+      </div>
+      <div class="cert-badge in-progress">
+        <span class="cert-name">CompTIA Security+ SY0-701 ✦ In Progress</span>
+        <span class="cert-date">Expected June 2026</span>
+      </div>
+      <div class="cert-badge">
+        <span class="cert-name">Tools of the Trade: Linux and SQL</span>
+        <span class="cert-date">Google / Coursera — February 2024</span>
+      </div>
+      <div class="cert-badge">
+        <span class="cert-name">Networks &amp; Network Security</span>
+        <span class="cert-date">Google / Coursera — April 2024</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOWER ROW -->
+  <div class="lower-row">
+
+    <div class="card blog-card">
+      <div class="tape tape-h"></div>
+      <p class="card-eyebrow">Writing</p>
+      <h2 class="card-title">The Blog</h2>
+      <p class="card-body">Security write-ups, home lab notes, and honest reflections on breaking into cybersecurity. No fluff, just things I'm actually interested in.</p>
+      <a href="https://blog.preahs.com" class="btn btn-primary">Read the Blog</a>
+    </div>
+
+    <div class="card resume-card">
+      <div class="pin pin-left"></div>
+      <div class="pin"></div>
+      <p class="card-eyebrow">Experience</p>
+      <h2 class="card-title">Résumé</h2>
+      <p class="card-body">Enterprise support, team leadership, and a cybersecurity degree in progress. Consistent 3.75 GPA.</p>
+      <div class="resume-lines">
+        <p class="resume-line"><strong>Jan 2024–July 2025</strong> &nbsp; Technical Support Advisor @ Apple</p>
+        <p class="resume-line"><strong>2021–present</strong> &nbsp; Head Cashier @ The Home Depot</p>
+        <p class="resume-line"><strong>Aug 2026 (exp.)</strong> &nbsp; B.B.A. Cybersecurity, UTSA</p>
+      </div>
+      <a href="/assets/docs/preah_smith_resume.pdf" class="btn btn-secondary">Download PDF</a>
+    </div>
+
+    <div class="card contact-sticky" id="contact">
+      <div class="pin pin-green"></div>
+      <p class="sticky-label">Get in Touch</p>
+      <div class="contact-item">
+        <span>Email</span>
+        <a href="mailto:contact@preahs.com">contact@preahs.com</a>
+      </div>
+      <div class="contact-item">
+        <span>Git Page</span>
+        <a href="https://git.preahs.com/preah" target="_blank">git.preahs.com</a>
+      </div>
+      <div class="contact-item">
+        <span>LinkedIn</span>
+        <a href="https://www.linkedin.com/in/preah-smith-510667253/" target="_blank">https://www.linkedin.com/in/preah-smith</a>
+      </div>
+      <div class="contact-item">
+        <span>Location</span>
+        Lakehills, TX
+      </div>
+    </div>
+
+  </div>
+
+  <p class="footer-strip">&copy; 2026 Preah Smith</p>
+
+</main>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('drawer');
+  const nav = document.getElementById('nav');
+
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    nav.classList.remove('nav-mobile-open');
+  }
+
+  hamburger.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    nav.classList.toggle('nav-mobile-open', open);
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      closeDrawer();
+    });
+  });
+</script>
+</body>
+</html>
